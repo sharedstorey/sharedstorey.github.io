@@ -3,6 +3,19 @@
 const url = 'https://us-central1-calm-streamer-339303.cloudfunctions.net/rsvp';
 
 
+// Cookie methods
+
+function getCookie() {
+    const cookie = document.cookie || "{}";
+    return JSON.parse(cookie);
+}
+
+
+function setCookie(data={}) {
+    document.cookie = `${JSON.stringify(data)}; SameSite=None; Secure`
+}
+
+
 // Element methods 
 
 const elements = {}
@@ -14,13 +27,43 @@ function getElement(id) {
 }
 
 
-function hide(id) {
-    getElement(id)?.setAttribute('hidden', '');
+function addError(id, error) {
+    addClass(id, 'is-danger');
+
+    const errorId = `${id}-error`
+
+    getElement(errorId).innerHTML = error;
+    removeClass(errorId, 'is-hidden');
+    addClass(errorId, 'is-danger');
 }
 
 
-function show(id) {
-    getElement(id)?.removeAttribute('hidden');
+function removeError(id, error) {
+    removeClass(id, 'is-danger');
+
+    const errorId = `${id}-error`
+
+    addClass(errorId, 'is-hidden');
+    removeClass(errorId, 'is-danger');
+}
+
+
+function addClass(id, ...classNames) {
+    const element = getElement(id);
+    if (!element) return;
+
+    for (const className of classNames) {
+        element.classList.add(className);
+    }
+}
+
+function removeClass(id, ...classNames) {
+    const element = getElement(id);
+    if (!element) return;
+
+    for (const className of classNames) {
+        element.classList.remove(className);
+    }
 }
 
 
@@ -28,9 +71,9 @@ function show(id) {
 
 function rsvpQuery(c, t, a, success, error) {
     if (t === 'v' && document.cookie) {
-        response = JSON.parse(document.cookie);
-        if (response.id === c) {
-            success(response);
+        const cookie = getCookie();
+        if (cookie.id === c) {
+            success(cookie);
             return;
         }
     }
@@ -48,7 +91,6 @@ function rsvpQuery(c, t, a, success, error) {
         if (response.error) {
             error(response);
         } else {
-            document.cookie = `${JSON.stringify(response)}; SameSite=None; Secure`
             success(response);
         }
     }
@@ -62,7 +104,7 @@ function rsvpQuery(c, t, a, success, error) {
 function rsvpSubmit(event = null) {
     event?.preventDefault();
 
-    hide('rsvp-form');
+    addClass('rsvp-submit', 'is-loading');
 
     const amount = getElement('rsvp-amount').value;
     const code = getElement('rsvp-code').value;
@@ -70,12 +112,17 @@ function rsvpSubmit(event = null) {
     rsvpQuery(code, 'r', amount, rsvpSuccess, rsvpError);
 }
 
-function rsvpError({error}) {
 
+function rsvpError({error}) {
+    addError('rsvp-error', error);
+    removeClass('rsvp-submit', 'is-loading');
 }
 
-function rsvpSuccess({/* todo */}) {
 
+function rsvpSuccess({message}) {
+
+    getElement('rsvp-submit').innerHTML = 'Change';
+    removeClass('rsvp-submit', 'is-loading');
 }
 
 
@@ -84,27 +131,38 @@ function rsvpSuccess({/* todo */}) {
 function rsvpCodeSubmit(event = null) {
     event?.preventDefault();
 
-    hide('rsvp-code-form');
-    show('rsvp-code-status');
-
     const code = getElement('rsvp-code').value;
+    if (!code) {
+        addError('rsvp-code', 'Please enter the RSVP code found in your email.');
+        return;
+    }
+
+    addClass('rsvp-code', 'is-disabled');
+    addClass('rsvp-code-submit', 'is-loading');
+
 
     rsvpQuery(code, 'v', null, rsvpCodeSuccess, rsvpCodeError);
 }
 
 
 function rsvpCodeError({error}) {
-    show('rsvp-code-form');
-    hide('rsvp-code-status');
+    removeClass('rsvp-code', 'is-disabled');
+    addClass('rsvp-code', 'is-danger');
 
-    getElement('rsvp-code-error').innerHTML = error;
-    show('rsvp-code-error');
+    removeClass('rsvp-code-submit', 'is-loading');
+
+    addError('rsvp-code', error);
 }
 
 
-function rsvpCodeSuccess({name, rsvp_max, events}) {
+function rsvpCodeSuccess(data) {
+    setCookie(data);
+
+    const {name, rsvp_max, events} = data;
+
     // Hide RSVP code content
-    hide('rsvp-code-content');
+    addClass('rsvp-code-content', 'is-hidden');
+    removeClass('rsvp-code-submit', 'is-loading');
 
     // Set and show RSVP content
     getElement('rsvp-name').innerHTML = `<p>Hello ${name}!</p>`;
@@ -115,43 +173,51 @@ function rsvpCodeSuccess({name, rsvp_max, events}) {
     }
     getElement('rsvp-amount').innerHTML = options;
 
-    show('rsvp-content');
+    removeClass('rsvp-content', 'is-hidden');
 
     // Set event details
     const eventDate = getElement('event-date');
     eventDate.innerHTML = events[0].date;
-    show('event-date');
+    removeClass('event-date', 'is-hidden');
 
     events.forEach(({name, time}, i) => {
         const event = getElement(`event-${i}`);
         event.innerHTML = `${time} - ${name}`;
-        show(`event-${i}`);
+        removeClass(`event-${i}`, 'is-hidden');
     });
-    show('event-schedule');
+    removeClass('event-schedule', 'is-hidden');
 }
 
 
 // Entry point
 
 (() => {
+    getElement('navbar-burger').addEventListener('click', () => {
+        getElement('navbar-burger').classList.toggle('is-active');
+        getElement('navbar-menu').classList.toggle('is-active');
+    });
+    getElement('rsvp-code').addEventListener('input', () => removeError('rsvp-code'));
+    getElement('rsvp-incorrect').addEventListener('click', () => {
+        setCookie();
+
+        removeClass('rsvp-code-content', 'is-hidden');
+        addClass('rsvp-content', 'is-hidden');
+
+        getElement('rsvp-code').value = "";
+    });
+
     const rsvpForm = getElement('rsvp-form');
     rsvpForm.addEventListener('submit', rsvpSubmit);
 
     const rsvpCodeForm = getElement('rsvp-code-form');
     rsvpCodeForm.addEventListener('submit', rsvpCodeSubmit);
 
-    let c;
-
-    if (document.cookie) {
-        const data = JSON.parse(document.cookie);
-        c = data.id;
-    }
-
+    const cookie = getCookie();
     const urlParams = new URLSearchParams(window.location.search);
-    c = urlParams.get('c') || c;
 
-    if (c) {
-        getElement('rsvp-code').value = c;
+    const code = urlParams.get('c') || cookie.id || null;
+    if (code) {
+        getElement('rsvp-code').value = code;
         rsvpCodeSubmit();
     }
 })();
