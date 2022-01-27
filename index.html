@@ -3,8 +3,74 @@
 
     </head>
     <body>
-        <div id='content'>
-            Loading...
+        <!-- Header content -->
+        <div id='header-content'>
+            <p>Dianna</p>
+            <p>Aiden</p>
+        </div>
+
+        <!-- Menu content -->
+        <div id='menu-content'>
+            <a>Home</a>
+            <a>RSVP</a>
+            <a>Our wedding</a>
+            <a>Gift Registry</a>
+            <a>FAQ</a>
+        </div>
+
+        <!-- Welcome content -->
+        <div id='welcome-content'>
+
+        </div>
+
+        <!-- RSVP content -->
+        <div id="rsvp-content" hidden>
+            <p id="rsvp-name"></p>
+            <a id="rsvp-incorrect">Not you?</a>
+
+            <form id="rsvp-form">
+                <select id="rsvp-amount" required></select>
+                <button type="submit">RSVP</button>
+            </form>
+        </div>
+
+        <!-- RSVP code content -->
+        <div id="rsvp-code-content">
+            <form id="rsvp-code-form">
+                <p id="rsvp-code-error" hidden></p>
+
+                <input type="text" id="rsvp-code" required>
+
+                <button type="submit">Find Me!</button>
+            </form>
+
+            <p id="rsvp-code-status" hidden>Locating your invitation...</p>
+        </div>
+
+        <!-- Event content -->
+        <div id="event-content">
+            <p>Our wedding</p>
+            <p id="event-date" hidden></p>
+            <p>
+                The Loft on King Street<br>
+                485 King St W, Floor 3, Toronto, ON M5V 1K4<br>
+                <a href="https://www.google.com/maps/dir//485+King+St+W,+Floor+3,+Toronto,+ON+M5V+1K4/@43.6319975,-79.4928495,14z/data=!4m2!4m1!3e2", target="_blank">Get Directions</a>
+            </p>
+
+            <p id="event-schedule" hidden>Schedule</p>
+            <p id="event-0" hidden></p>
+            <p id="event-1" hidden></p>
+            <p id="event-2" hidden></p>
+        </div>
+
+        <!-- Gift content -->
+        <div id="gift-content">
+
+        </div>
+
+        <!-- FAQ content -->
+        <div id="faq-content">
+
         </div>
     </body>
 
