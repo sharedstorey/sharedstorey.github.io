@@ -69,7 +69,7 @@ function removeClass(id, ...classNames) {
 
 // Helper methods
 
-function rsvpQuery(c, t, a, success, error) {
+function rsvpQuery(c, t, a, questions, success, error) {
     if (t === 'v' && document.cookie) {
         const cookie = getCookie();
         if (cookie.id === c) {
@@ -94,7 +94,18 @@ function rsvpQuery(c, t, a, success, error) {
             success(response);
         }
     }
-    xmlHttp.open("GET", `${url}?c=${c}&t=${t}&a=${a}`, true);
+
+    let questionsString = ""
+    if (questions) {
+        questionsString += questions.q1 && `&q1=${encodeURIComponent(questions.q1)}`
+        questionsString += questions.q2 && `&q2=${encodeURIComponent(questions.q2)}`
+        questionsString += questions.q3 && `&q3=${encodeURIComponent(questions.q3)}`
+        questionsString += questions.q4 && `&q4=${encodeURIComponent(questions.q4)}`
+        questionsString += questions.q5 && `&q5=${encodeURIComponent(questions.q5)}`
+    }
+
+    console.log(`${url}?c=${c}&t=${t}&a=${a}${questionsString}`);
+    xmlHttp.open("GET", `${url}?c=${c}&t=${t}&a=${a}${questionsString}`, true);
     xmlHttp.send(null);
 }
 
@@ -108,8 +119,13 @@ function rsvpSubmit(event = null) {
 
     const amount = getElement('rsvp-amount').value;
     const code = getElement('rsvp-code').value;
+    const q1 = getElement('rsvp-q1').value;
+    const q2 = getElement('rsvp-q2').value;
+    const q3 = getElement('rsvp-q3').value;
+    const q4 = getElement('rsvp-q4').value;
+    const q5 = getElement('rsvp-q5').value;
 
-    rsvpQuery(code, 'r', amount, rsvpSuccess, rsvpError);
+    rsvpQuery(code, 'r', amount, {q1, q2, q3, q4, q5}, rsvpSuccess, rsvpError);
 }
 
 
@@ -119,7 +135,8 @@ function rsvpError({error}) {
 }
 
 
-function rsvpSuccess({message}) {
+function rsvpSuccess(data) {
+    rsvpCodeSuccess(data);
 
     getElement('rsvp-submit').innerHTML = 'Change';
     removeClass('rsvp-submit', 'is-loading');
@@ -140,8 +157,7 @@ function rsvpCodeSubmit(event = null) {
     addClass('rsvp-code', 'is-disabled');
     addClass('rsvp-code-submit', 'is-loading');
 
-
-    rsvpQuery(code, 'v', null, rsvpCodeSuccess, rsvpCodeError);
+    rsvpQuery(code, 'v', null, null, rsvpCodeSuccess, rsvpCodeError);
 }
 
 
@@ -158,7 +174,8 @@ function rsvpCodeError({error}) {
 function rsvpCodeSuccess(data) {
     setCookie(data);
 
-    const {name, rsvp_max, events} = data;
+    const {name, rsvp_max, rsvp_amount, events, questions} = data;
+    console.log(data);
 
     // Hide RSVP code content
     addClass('rsvp-code-content', 'is-hidden');
@@ -168,10 +185,16 @@ function rsvpCodeSuccess(data) {
     getElement('rsvp-name').innerHTML = `<p>Hello ${name}!</p>`;
 
     let options = "";
-    for (let i = 0; i < rsvp_max; ++i) {
-        options += `<option value=${i + 1}>${i + 1}</option>`;
+    for (let i = 0; i <= rsvp_max; ++i) {
+        options += `<option value=${i}>${i}</option>`;
     }
     getElement('rsvp-amount').innerHTML = options;
+    getElement('rsvp-amount').value = rsvp_amount
+    console.log(rsvp_amount);
+    
+    for (let i = 0; i < questions.length; ++i) {
+        getElement(`rsvp-q${i + 1}`).value = questions[i];
+    }
 
     removeClass('rsvp-content', 'is-hidden');
 
