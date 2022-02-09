@@ -11,70 +11,130 @@
         <style>
             body {
                 font-family: 'Abhaya Libre', serif !important;
+            }
+
+            .has-bg-img { 
+                background: url('images/A&D-Engagement-84.jpg')center center; 
+                background-size: cover; 
+            }
+
+            .is-top-round {
+                border-radius: 50vw 50vw 0px 0px;
+            }
+
+            .is-script {
+                font-family: 'Dancing Script', cursive !important;
+            }
+            
+            .is-size-0 {
+                font-size: 4rem;
+            }
+
+            .is-other {
+                background-color: rgb(237, 235, 235);
+                margin-top: 30px;
+            }
+
+            .is-light {
+                filter: contrast(0.75) brightness(1.25);
+            }
+
+            .vertical-separator {
+                margin-top: 30px;
+                height: 130px;
+                text-align: center;
+            }
+
+            .vertical-separator-content{
+                height: 100%;
+                width: 0px;
+                border-left: 3px solid black;
+                /* margin-top: 30px; */
+                margin: auto;
+            }
+
+            .title-override {
+                color: white;  
+                font-size: 5vw;
+                font-weight: 300;
+                line-height: 1.125;
                 text-transform: uppercase;
             }
 
-            /* .navbar {
-                display: flex;
-                align-content: center;
-                justify-content: center;
-            }
-
-            .navbar .navbar-menu {
-                flex-grow: initial;
-                flex-shrink: initial;
-            } */
         </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     </head>
-    <body>
+    <body class="has-navbar-fixed-top">
+        <!-- Menu content -->
+        <nav id="menu-content" class="navbar is-black is-spaced has-text-weight-bold is-fixed-top"  role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a id="navbar-burger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbar-menu" class="navbar-menu is-align-items-center">
+                <div class="navbar-start">
+                    <a class="navbar-item">Home</a>
+                    <a class="navbar-item">RSVP</a>
+                    <a class="navbar-item">Our Wedding</a>
+                    <a class="navbar-item">Gift Registry</a>
+                    <a class="navbar-item">FAQ</a>
+                </div>
+            </div>
+        </nav>
+
         <!-- Header content -->
-        <section id="header-content" class="hero is-medium">
+        <section id="header-content" class="hero is-medium has-bg-img">
             <div class="hero-body">
                 <div class="container has-text-centered">
-                    <p class="title">
-                      Dianna <span>&</span> Aiden
+                    <p class="title-override">
+                        <br><br>
+                      Dianna <span class="is-script">&</span> Aiden
                     </p>
                 </div>
             </div>
         </section>
 
-        <div class="container has-text-centered">
-            <!-- Menu content -->
-            <nav id="menu-content" class="navbar is-black is-spaced has-text-weight-bold" role="navigation" aria-label="main navigation">
-                <div class="navbar-brand">
-                    <a id="navbar-burger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                    </a>
-                </div>
-                <div id="navbar-menu" class="navbar-menu is-align-items-center">
-                    <div class="navbar-start">
-                        <a class="navbar-item">Home</a>
-                        <a class="navbar-item">RSVP</a>
-                        <a class="navbar-item">Our wedding</a>
-                        <a class="navbar-item">Gift Registry</a>
-                        <a class="navbar-item">FAQ</a>
-                    </div>
-                </div>
-            </nav>
+        <div class="container has-text-centered has-text-black">
+            <div class="vertical-separator has-text-centered">
+                <div class="vertical-separator-content"></div>
+            </div>
 
             <!-- Welcome content -->
-            <section id="welcome-content" class="section">
-                <h1 class="title">Welcome!</h1>
+            <section id="storey-content" class="section">
+                <h1 class="is-size-0">Our Story</h1>
+
+                <div class="columns is-vcentered">
+                    <div class="column is-size-4 has-text-left">
+                        <p>Several years ago, Aiden packed his bags and moved from New Zealand to Canada on a whim. One night while having dinner at a Toronto diner, he made friends with some of the servers there – including Dianna’s best friend, Kaelee. Kaelee, a Toronto native, showed Aiden around the city over the next few days and even ended up finding him a place to live.</p>
+                        <br>
+                        <p>When she later told Dianna about making friends with one of her customers – a rare occurrence – Kaelee said, “If you weren’t in a relationship with someone right now, I’d tell you I met the perfect guy for you.”</p>
+                        <br>
+                        <p>Kaelee pestered both Aiden and Dianna over the next year because she really wanted the two to meet, despite the fact that they were both in relationships with other people. When they finally did meet, Dianna wondered if her friend’s instincts had been right all along...</p>
+                    </div>     
+                    <div class="column is-1"></div>
+                    <div class="column">
+                        <img class="image is-top-round" src="images/A&D-Engagement-19.jpg">
+                    </div>
+                </div>
 
             </section>
 
-            <section class="section">
-                <h1 class="title">RSVP</h1>
+            <div class="vertical-separator has-text-centered">
+                <div class="vertical-separator-content"></div>
+            </div>
+
+            <section class="section is-other">
+                <h1 class="is-size-0">RSVP</h1>
 
                 <!-- RSVP content -->
                 <div id="rsvp-content" class="is-hidden">
-                    <p id="rsvp-name"></p>
-                    <a id="rsvp-incorrect">Not you?</a>
-
-                    <form id="rsvp-form">
+                    <p id="rsvp-name" class="is-size-4"></p>
+                    <a id="rsvp-incorrect" class="is-size-6">Not you?</a>
+                    
+                    <form id="rsvp-form" class="mt-6">
                         <div class="field">
                             <label class="label">Question 1</label>
                             <div  class="control">
@@ -128,19 +188,20 @@
                 <!-- RSVP Code content -->
                 <div id="rsvp-code-content">
                     <form id="rsvp-code-form">
-                        <label>Please enter the RSVP code located in your invitation email.</label>
+                        <p class="is-size-5">Please enter the RSVP code located in your invitation email.</p>
+                        <br>
                         <div class="field is-horizontal">
                             <div class="field-body">
                                 <div class="field">
                                     <div class="field is-grouped is-grouped-centered">
                                         <div class="control">
-                                            <input id="rsvp-code" type="text" class="input">
+                                            <input id="rsvp-code" type="text" class="input" placeholder="RSVP Code">
                                         </div>
                                         <div class="control">
                                             <button id="rsvp-code-submit" type="submit" class="button is-black">Find Me!</button>
                                         </div>
                                     </div>
-                                    <p id="rsvp-code-error" class="help is-hidden">Error message</p>
+                                    <p id="rsvp-code-error" class="help is-hidden is-size-5">Error message</p>
                                 </div>
                             </div>
                         </div>
@@ -148,33 +209,57 @@
                 </div>
             </section>
 
+            <div class="vertical-separator has-text-centered">
+                <div class="vertical-separator-content"></div>
+            </div>
+
             <!-- Event content -->
             <section id="event-content" class="section">
-                <h1 class="title">Our wedding</h1>
-                <p id="event-date" class="is-hidden"></p>
-                <p>
-                    The Loft on King Street<br>
-                    485 King St W, Floor 3, Toronto, ON M5V 1K4<br>
-                </p>
+                <h1 class="is-size-0">Our Wedding</h1>
 
-                <div class="control">
-                    <a class="button is-black" href="https://www.google.com/maps/dir//485+King+St+W,+Floor+3,+Toronto,+ON+M5V+1K4/@43.6319975,-79.4928495,14z/data=!4m2!4m1!3e2", target="_blank">Get Directions</a>
+                <div class="columns is-vcentered">
+                    <div class="column">
+                        <img class="image is-top-round is-light" src="images/baro-loft.jpeg">
+                    </div>
+                    <div class="column is-1"></div>  
+                    <div class="column is-size-4">
+                        <p id="event-schedule" class="is-hidden has-text-weight-bold is-size-3">The Details</p>
+                        <p id="event-0" class="is-hidden"></p>
+                        <p id="event-1" class="is-hidden"></p>
+                        <p id="event-2" class="is-hidden"></p>
+                        <br>
+                        <p id="event-date" class="is-hidden is-size-2"></p>
+                        <br>
+                        <p>
+                            <span class="has-text-weight-bold">The Loft on King Street</span><br>
+                            485 King St W, Floor 3<br>
+                            Toronto, ON M5V 1K4<br>
+                        </p>
+                        <br>
+                        <div class="control">
+                            <a class="button is-black" href="https://www.google.com/maps/dir//485+King+St+W,+Floor+3,+Toronto,+ON+M5V+1K4/@43.6319975,-79.4928495,14z/data=!4m2!4m1!3e2", target="_blank">Get Directions</a>
+                        </div>
+                    </div>
                 </div>
-
-                <p id="event-schedule" class="is-hidden">Schedule</p>
-                <p id="event-0" class="is-hidden"></p>
-                <p id="event-1" class="is-hidden"></p>
-                <p id="event-2" class="is-hidden"></p>
+                
             </section>
+
+            <div class="vertical-separator has-text-centered">
+                <div class="vertical-separator-content"></div>
+            </div>
 
             <!-- Gift content -->
             <section id="gift-content" class="section">
-                <h1 class="title">Gift Registry</h1>
+                <h1 class="is-size-0">Gift Registry</h1>
             </section>
+
+            <div class="vertical-separator has-text-centered">
+                <div class="vertical-separator-content"></div>
+            </div>
 
             <!-- FAQ content -->
             <section id="faq-content" class="section">
-                <h1 class="title">FAQ</h1>
+                <h1 class="is-size-0">FAQ</h1>
 
             </section>
         </div>
