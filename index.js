@@ -182,7 +182,7 @@ function rsvpCodeSuccess(data) {
     removeClass('rsvp-code-submit', 'is-loading');
 
     // Set and show RSVP content
-    getElement('rsvp-name').innerHTML = `<p>Hello ${name}!</p>`;
+    getElement('rsvp-name').innerHTML = `<p>Welcome ${name}!</p>`;
 
     let options = "";
     for (let i = 0; i <= rsvp_max; ++i) {
@@ -205,7 +205,7 @@ function rsvpCodeSuccess(data) {
 
     events.forEach(({name, time}, i) => {
         const event = getElement(`event-${i}`);
-        event.innerHTML = `${time} - ${name}`;
+        event.innerHTML = `${time} &ndash; ${name}`;
         removeClass(`event-${i}`, 'is-hidden');
     });
     removeClass('event-schedule', 'is-hidden');
