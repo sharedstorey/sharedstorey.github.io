@@ -9,8 +9,15 @@
         <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre&family=Dancing+Script&display=swap" rel="stylesheet">
 
         <style>
+            html {
+                overflow: hidden;
+                height: 100%;
+            }
+
             body {
                 font-family: 'Abhaya Libre', serif !important;
+                height: 100%;
+                overflow: auto;
             }
 
             .has-bg-img { 
@@ -49,22 +56,68 @@
                 height: 100%;
                 width: 0px;
                 border-left: 3px solid black;
-                /* margin-top: 30px; */
                 margin: auto;
             }
 
             .title-override {
                 color: white;  
-                font-size: 5vw;
+                font-size: 3em;
                 font-weight: 300;
                 line-height: 1.125;
                 text-transform: uppercase;
+            }
+
+            .nav-spaced {
+                margin: 0 2rem;
+            }
+
+            @media only screen and (min-width: 768px) {
+                .title-override {
+                    font-size: 7em;
+                }
+            }
+
+            .accordion-item {
+                padding: 2rem 0;
+                border-bottom: 1px solid black;
+            }
+
+            .accordion-header {
+                cursor: pointer;
+                width: 100%;
+                transition: 0.5s;
+            }
+
+            .accordion-header:after {
+                content: '\002B';
+                font-weight: bold;
+                float: right;
+            }
+
+            .accordion-active {
+                margin-bottom: 2rem;
+            }
+
+            .accordion-active:after {
+                content: "\2212";
+            }
+
+            .accordion-content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.5s ease-out;
+            }
+
+            .ending {
+                padding: 3rem;
             }
 
         </style>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     </head>
     <body class="has-navbar-fixed-top">
+        <div id="top"></div>
+
         <!-- Menu content -->
         <nav id="menu-content" class="navbar is-black is-spaced has-text-weight-bold is-fixed-top"  role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
@@ -76,11 +129,10 @@
             </div>
             <div id="navbar-menu" class="navbar-menu is-align-items-center">
                 <div class="navbar-start">
-                    <a class="navbar-item">Home</a>
-                    <a class="navbar-item">RSVP</a>
-                    <a class="navbar-item">Our Wedding</a>
-                    <a class="navbar-item">Gift Registry</a>
-                    <a class="navbar-item">FAQ</a>
+                    <a class="navbar-item is-size-5 nav-spaced" href="#top">Home</a>
+                    <a class="navbar-item is-size-5 nav-spaced" href="#separator-rsvp">RSVP</a>
+                    <a class="navbar-item is-size-5 nav-spaced" href="#separator-event">Our Wedding</a>
+                    <a class="navbar-item is-size-5 nav-spaced" href="#separator-faq">FAQ</a>
                 </div>
             </div>
         </nav>
@@ -122,7 +174,7 @@
 
             </section>
 
-            <div class="vertical-separator has-text-centered">
+            <div id="separator-rsvp" class="vertical-separator has-text-centered">
                 <div class="vertical-separator-content"></div>
             </div>
 
@@ -131,40 +183,45 @@
 
                 <!-- RSVP content -->
                 <div id="rsvp-content" class="is-hidden">
-                    <p id="rsvp-name" class="is-size-4"></p>
-                    <a id="rsvp-incorrect" class="is-size-6">Not you?</a>
+                    <p id="rsvp-name" class="is-size-3"></p>
+                    <a id="rsvp-incorrect" class="is-size-5">Not you?</a>
+
+                    <br>
+                    <br>
+                    <p class="is-size-4">We're excited to see you at the wedding. <br> Please answer the questions below before submitting your RSVP.</p>
                     
                     <form id="rsvp-form" class="mt-6">
                         <div class="field">
-                            <label class="label">Question 1</label>
+                            <label class="label is-size-5">Do you have any alergies or dietary restrictions?</label>
                             <div  class="control">
                                 <input id="rsvp-q1" class="input" type="text" placeholder="Answer">
                             </div>
                         </div>
-                        <div class="field">
-                            <label class="label">Question 2</label>
+                        <div class="field is-hidden">
+                            <label class="label is-size-5 is-hide">Question 2</label>
                             <div class="control">
                                 <input id="rsvp-q2" class="input" type="text" placeholder="Answer">
                             </div>
                         </div>
-                        <div class="field">
-                            <label class="label">Question 3</label>
+                        <div class="field is-hidden">
+                            <label class="label is-size-5">Question 3</label>
                             <div class="control">
                                 <input id="rsvp-q3" class="input" type="text" placeholder="Answer">
                             </div>
                         </div>
-                        <div class="field">
-                            <label class="label">Question 4</label>
+                        <div class="field is-hidden">
+                            <label class="label is-size-5">Question 4</label>
                             <div class="control">
                                 <input id="rsvp-q4" class="input" type="text" placeholder="Answer">
                             </div>
                         </div>
-                        <div class="field">
-                            <label class="label">Question 5</label>
+                        <div class="field is-hidden">
+                            <label class="label is-size-5">Question 5</label>
                             <div class="control">
                                 <input id="rsvp-q5" class="input" type="text" placeholder="Answer">
                             </div>
                         </div>
+                        <br>
                         <div class="field is-horizontal">
                             <div class="field-body">
                                 <div class="field">
@@ -209,7 +266,7 @@
                 </div>
             </section>
 
-            <div class="vertical-separator has-text-centered">
+            <div  id="separator-event" class="vertical-separator has-text-centered">
                 <div class="vertical-separator-content"></div>
             </div>
 
@@ -237,23 +294,14 @@
                         </p>
                         <br>
                         <div class="control">
-                            <a class="button is-black" href="https://www.google.com/maps/dir//485+King+St+W,+Floor+3,+Toronto,+ON+M5V+1K4/@43.6319975,-79.4928495,14z/data=!4m2!4m1!3e2", target="_blank">Get Directions</a>
+                            <button class="button is-black" onclick="window.open('https://www.google.com/maps/dir//485+King+St+W,+Floor+3,+Toronto,+ON+M5V+1K4/@43.6319975,-79.4928495,14z/data=!4m2!4m1!3e2','_blank')">Get Directions</button>
                         </div>
                     </div>
                 </div>
                 
             </section>
 
-            <div class="vertical-separator has-text-centered">
-                <div class="vertical-separator-content"></div>
-            </div>
-
-            <!-- Gift content -->
-            <section id="gift-content" class="section">
-                <h1 class="is-size-0">Gift Registry</h1>
-            </section>
-
-            <div class="vertical-separator has-text-centered">
+            <div  id="separator-faq" class="vertical-separator has-text-centered">
                 <div class="vertical-separator-content"></div>
             </div>
 
@@ -261,7 +309,83 @@
             <section id="faq-content" class="section">
                 <h1 class="is-size-0">FAQ</h1>
 
+
+                <!-- <div class="card">
+                    <header class="card-header">
+                      <p class="card-header-title is-size-4">
+                        What are the COVID restrictions?
+                      </p>
+                      <button class="card-header-icon" aria-label="more options">
+                        <span class="icon">
+                          <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </header>
+                    <div class="card-content">
+                      <div class="content">
+                        <p class="has-text-left is-size-5">Please note, the Government of Ontario requires that all attendees of the wedding be fully vaccinated. Venue staff will be checking for your proof of vaccination or medical exemption at the door upon arrival. "Fully vaccinated" in Ontario means having had two doses of an approved vaccine (Pfizer, Moderna, AstraZeneca, or J&J), with the most recent at least 14 days prior to the wedding. Neither a recent COVID-19 infection nor a recent negative test will substitute for proof of two shots plus 14 days.</p>
+                        <p class="has-text-left is-size-5">If you are not vaccinated or cannot obtain a medical exemption, please RSVP that you will not be coming (we will miss you!) or reach out to us directly before you RSVP.</p>
+                      </div>
+                    </div>
+                  </div> -->
+                
+
+                <div class="accordion has-text-left">
+                    <div class="accordion-item">
+                        <div class="accordion-header is-size-5">Q: What are the COVID restrictions?</div>
+                        <p class="accordion-content is-size-5">
+                            Please note, the Government of Ontario requires that all attendees of the wedding be fully vaccinated. Venue staff will be checking for your proof of vaccination or medical exemption at the door upon arrival. "Fully vaccinated" in Ontario means having had two doses of an approved vaccine (Pfizer, Moderna, AstraZeneca, or J&J), with the most recent at least 14 days prior to the wedding. Neither a recent COVID-19 infection nor a recent negative test will substitute for proof of two shots plus 14 days.
+                            <br><br>
+                            If you are not vaccinated or cannot obtain a medical exemption, please RSVP that you will not be coming (we will miss you!) or reach out to us directly before you RSVP.
+                        </p>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header is-size-5">Q: Can I bring a date/family member?</div>
+                        <p class="accordion-content is-size-5">
+                            Due to COVID restrictions and venue capacity, our wedding is strictly RSVP-only. We can only accommodate those listed on your invitation.
+                        </p>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header is-size-5">Q: Are kids welcome?</div>
+                        <p class="accordion-content is-size-5">
+                            While we love your little ones, our wedding is an adults-only event so that everyone can relax and enjoy the evening. We appreciate you making arrangements ahead of time and leaving the kids at home so you can celebrate with us.
+                        </p>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header is-size-5">Q: Where should I park?</div>
+                        <p class="accordion-content is-size-5">
+                            There are several parking garages on both King Street West and Spadina Avenue.
+                        </p>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header is-size-5">Q: What's your wedding hashtag?</div>
+                        <p class="accordion-content is-size-5">
+                            Please use #fahelofastorey when posting on social media (special thanks to our friend Aaron for coming up with it!).
+                        </p>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header is-size-5">Q: What is the dress code?</div>
+                        <p class="accordion-content is-size-5">
+                            The event is black tie optional, so feel free to dust off your spiffiest suit!
+                        </p>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header is-size-5">Q: Do you have a gift registry?</div>
+                        <p class="accordion-content is-size-5">
+                            Your presence at our wedding is present enough! However, for friends and family who have expressed an interest, we’ve created an online registry with The Bay and Crate and Barrel.
+                        </p>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header is-size-5">Q: Where can I stay if I'd like a hotel near the venue?</div>
+                        <p class="accordion-content is-size-5">
+                            Information coming soon.
+                            <!-- We have a wedding room block at the Courtyard Toronto Vaughan (150 Interchange Way) at the discounted rate of $139/night (the rooms have either 2 Queens or 1 King bed). Reservations can be made under the name Seghen Woldai or Andre Gizenga-Ehiwe by October 29th by calling (905) 660-9938 or by clicking here: -->
+                        </p>
+                    </div>
+                </div>
             </section>
+
+            <div class="ending">#fahelofastorey</div>
         </div>
     </body>
 
