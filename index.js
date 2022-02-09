@@ -186,11 +186,11 @@ function rsvpCodeSuccess(data) {
 
     let options = "";
     for (let i = 0; i <= rsvp_max; ++i) {
-        options += `<option value=${i}>${i}</option>`;
+        const value = i === 0 ? 'I can\'t make it' : `${i} guest`
+        options += `<option class="has-text-centered" value=${i}>${value}</option>`;
     }
     getElement('rsvp-amount').innerHTML = options;
-    getElement('rsvp-amount').value = rsvp_amount
-    console.log(rsvp_amount);
+    getElement('rsvp-amount').value = rsvp_amount === null ? rsvp_max : rsvp_amount;
     
     for (let i = 0; i < questions.length; ++i) {
         getElement(`rsvp-q${i + 1}`).value = questions[i];
@@ -214,6 +214,8 @@ function rsvpCodeSuccess(data) {
 
 // Entry point
 
+// let active = null;
+
 (() => {
     getElement('navbar-burger').addEventListener('click', () => {
         getElement('navbar-burger').classList.toggle('is-active');
@@ -228,6 +230,31 @@ function rsvpCodeSuccess(data) {
 
         getElement('rsvp-code').value = "";
     });
+
+    var acc = document.getElementsByClassName('accordion-header');
+    var i;
+    console.log(acc);
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener('click', function() {
+        this.classList.toggle('accordion-active');
+        const panel = this.nextElementSibling;
+
+        for(let item of document.getElementsByClassName('accordion-active')) {
+            if (item !== this) {
+                item.classList.toggle('accordion-active');
+
+                const itemPanel = item.nextElementSibling;
+                itemPanel.style.maxHeight = null;
+            }
+        }
+
+        if (panel.style.maxHeight) {
+          panel.style.maxHeight = null;
+        } else {
+          panel.style.maxHeight = `${panel.scrollHeight}px`;
+        } 
+      });
+    }
 
     const rsvpForm = getElement('rsvp-form');
     rsvpForm.addEventListener('submit', rsvpSubmit);
