@@ -104,8 +104,7 @@ function rsvpQuery(c, t, a, questions, success, error) {
         questionsString += questions.q5 && `&q5=${encodeURIComponent(questions.q5)}`
     }
 
-    console.log(`${url}?c=${c}&t=${t}&a=${a}${questionsString}`);
-    xmlHttp.open("GET", `${url}?c=${c}&t=${t}&a=${a}${questionsString}`, true);
+    xmlHttp.open("GET", `${url}?c=${encodeURIComponent(c)}&t=${encodeURIComponent(t)}&a=${encodeURIComponent(a)}${questionsString}`, true);
     xmlHttp.send(null);
 }
 
