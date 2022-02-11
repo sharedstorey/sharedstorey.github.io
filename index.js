@@ -41,7 +41,10 @@ function getElement(id) {
 function addError(id, error) {
     addClass(id, 'is-danger');
 
-    const errorId = `${id}-error`
+    const parentId = `${id}-parent`;
+    addClass(parentId, 'is-danger');
+
+    const errorId = `${id}-error`;
 
     getElement(errorId).innerHTML = error;
     removeClass(errorId, 'is-hidden');
@@ -49,8 +52,11 @@ function addError(id, error) {
 }
 
 
-function removeError(id, error) {
+function removeError(id) {
     removeClass(id, 'is-danger');
+
+    const parentId = `${id}-parent`;
+    removeClass(parentId, 'is-danger');
 
     const errorId = `${id}-error`
 
@@ -321,7 +327,14 @@ function rsvpCodeSuccess(data) {
     })
     getElement('rsvp-q4').addEventListener('change', () => removeError('rsvp-q4') || removeError('rsvp'));
     getElement('rsvp-q5').addEventListener('change', () => removeError('rsvp-q5') || removeError('rsvp'));
-    getElement('rsvp-amount').addEventListener('change', () => removeError('rsvp-q4') || removeError('rsvp-q5') || removeError('rsvp'))
+    getElement('rsvp-amount').addEventListener('change', () => {
+        removeError('rsvp-q4') || removeError('rsvp-q5') || removeError('rsvp');
+
+        if (getElement('rsvp-amount').value == 0) {
+            getElement('rsvp-q4').value = 'Not attending';
+            getElement('rsvp-q5').value = 'Not attending';
+        }
+    });
 
     var acc = document.getElementsByClassName('accordion-header');
     var i;
