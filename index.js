@@ -148,8 +148,22 @@ function rsvpError({error}) {
 function rsvpSuccess(data) {
     rsvpCodeSuccess(data);
 
-    getElement('rsvp-submit').innerHTML = 'Change';
+    if (data.rsvp_amount == null) {
+        return;
+    }
+
     removeClass('rsvp-submit', 'is-loading');
+
+    removeClass('rsvp-success-content', 'is-hidden');
+    addClass('rsvp-content', 'is-hidden')
+
+    getElement('rsvp-success-thanks').innerHTML = `${data.name}, thank you for your response.`;
+
+    if (data.rsvp_amount > 0) {
+        removeClass('rsvp-success-attending', 'is-hidden');
+    } else {
+        addClass('rsvp-success-attending', 'is-hidden');
+    }
 }
 
 
@@ -196,7 +210,7 @@ function rsvpCodeSuccess(data) {
 
     let options = "";
     for (let i = 0; i <= rsvp_max; ++i) {
-        const value = i === 0 ? 'I can\'t make it' : `${i} guest`
+        const value = i === 0 ? 'I can\'t make it' : `${i} attending`
         options += `<option class="has-text-centered" value=${i}>${value}</option>`;
     }
     getElement('rsvp-amount').innerHTML = options;
@@ -207,6 +221,8 @@ function rsvpCodeSuccess(data) {
     }
 
     removeClass('rsvp-content', 'is-hidden');
+
+    getElement('rsvp-submit').innerHTML = rsvp_amount == null ? 'RSVP' : 'Update';
 
     // Set event details
     const eventDate = getElement('event-date');
@@ -238,6 +254,18 @@ function rsvpCodeSuccess(data) {
 
         getElement('rsvp-code').value = "";
     });
+    getElement('rsvp-success-incorrect').addEventListener('click', () => {
+        setCookie();
+
+        removeClass('rsvp-code-content', 'is-hidden');
+        addClass('rsvp-success-content', 'is-hidden');
+
+        getElement('rsvp-code').value = "";
+    });
+    getElement('rsvp-success-change').addEventListener('click', () => {
+        addClass('rsvp-success-content', 'is-hidden');
+        removeClass('rsvp-content', 'is-hidden');
+    })
 
     var acc = document.getElementsByClassName('accordion-header');
     var i;
@@ -273,9 +301,18 @@ function rsvpCodeSuccess(data) {
     const cookie = getCookie();
     const urlParams = new URLSearchParams(window.location.search);
 
+    if (cookie.id !== null && cookie.id === urlParams.get('c') || cookie.id && cookie.rsvp_amount != null) {
+        getElement('rsvp-code').value = cookie.id;
+        rsvpSuccess(cookie);
+
+        return;
+    }
+
     const code = urlParams.get('c') || cookie.id || null;
     if (code) {
         getElement('rsvp-code').value = code;
         rsvpCodeSubmit();
+    } else {
+        removeClass('rsvp-code-content', 'is-hidden');
     }
 })();
