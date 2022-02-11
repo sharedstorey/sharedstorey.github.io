@@ -216,9 +216,11 @@ function rsvpCodeSuccess(data) {
     getElement('rsvp-amount').innerHTML = options;
     getElement('rsvp-amount').value = rsvp_amount === null ? rsvp_max : rsvp_amount;
     
-    for (let i = 0; i < questions.length; ++i) {
+    for (let i = 0; i < questions.length - 1; ++i) {
         getElement(`rsvp-q${i + 1}`).value = questions[i];
     }
+
+    getElement('rsvp-q5').value = questions[4] || 'Beef';
 
     removeClass('rsvp-content', 'is-hidden');
 
