@@ -125,8 +125,6 @@ function rsvpQuery(c, t, a, questions, success, error) {
 function rsvpSubmit(event = null) {
     event?.preventDefault();
 
-    addClass('rsvp-submit', 'is-loading');
-
     const amount = getElement('rsvp-amount').value;
     const code = getElement('rsvp-code').value;
     const q1 = getElement('rsvp-q1').value;
@@ -134,6 +132,34 @@ function rsvpSubmit(event = null) {
     const q3 = getElement('rsvp-q3').value;
     const q4 = getElement('rsvp-q4').value;
     const q5 = getElement('rsvp-q5').value;
+
+    const data = getCookie();
+
+    console.log(amount, q4, q5);
+
+    if ((amount == 2 || (amount == 1 && data.rsvp_max === 1)) && q4 === "Not attending") {
+        addError('rsvp-q4', 'Please select an entrée for this guest.');
+        return;
+    }
+
+    if (amount == 2 && q5 === "Not attending") {
+        addError('rsvp-q5', 'Please select an entrée for this guest.');
+        return;
+    }
+
+
+    console.log(amount == 1 && q4 !== "Not attending" && q5 !== "Not attending", amount == 1, q4 !== "Not attending", q5 !== "Not attending" );
+
+    if (amount == 1 && q4 !== "Not attending" && q5 !== "Not attending") {
+        addError('rsvp-q4', '');
+        addError('rsvp-q5', '');
+
+        addError('rsvp', `The number of guests attending does not match the number of entrées selected.<br>Please verify your selections.`);
+
+        return;
+    }
+
+    addClass('rsvp-submit', 'is-loading');
 
     rsvpQuery(code, 'r', amount, {q1, q2, q3, q4, q5}, rsvpSuccess, rsvpError);
 }
@@ -148,11 +174,15 @@ function rsvpError({error}) {
 function rsvpSuccess(data) {
     rsvpCodeSuccess(data);
 
+    removeError('rsvp-q4');
+    removeError('rsvp-q5');
+    removeError('rsvp');
+
+    removeClass('rsvp-submit', 'is-loading');
+
     if (data.rsvp_amount == null) {
         return;
     }
-
-    removeClass('rsvp-submit', 'is-loading');
 
     removeClass('rsvp-success-content', 'is-hidden');
     addClass('rsvp-content', 'is-hidden')
@@ -210,7 +240,10 @@ function rsvpCodeSuccess(data) {
 
     let options = "";
     for (let i = 0; i <= rsvp_max; ++i) {
-        const value = i === 0 ? 'I can\'t make it' : `${i} attending`
+        let value = `${i} attending`; 
+        if (i === 0) {
+            value = data.rsvp_max > 1 ? 'We can\'t make it' : 'I can\'t make it';
+        }  
         options += `<option class="has-text-centered" value=${i}>${value}</option>`;
     }
     getElement('rsvp-amount').innerHTML = options;
@@ -266,6 +299,10 @@ function rsvpCodeSuccess(data) {
         removeClass('rsvp-code-content', 'is-hidden');
         addClass('rsvp-content', 'is-hidden');
 
+        removeError('rsvp');
+        removeError('rsvp-q4');
+        removeError('rsvp-q5');
+
         getElement('rsvp-code').value = "";
     });
     getElement('rsvp-success-incorrect').addEventListener('click', () => {
@@ -280,6 +317,9 @@ function rsvpCodeSuccess(data) {
         addClass('rsvp-success-content', 'is-hidden');
         removeClass('rsvp-content', 'is-hidden');
     })
+    getElement('rsvp-q4').addEventListener('change', () => removeError('rsvp-q4') || removeError('rsvp'));
+    getElement('rsvp-q5').addEventListener('change', () => removeError('rsvp-q5') || removeError('rsvp'));
+    getElement('rsvp-amount').addEventListener('change', () => removeError('rsvp-q4') || removeError('rsvp-q5') || removeError('rsvp'))
 
     var acc = document.getElementsByClassName('accordion-header');
     var i;
