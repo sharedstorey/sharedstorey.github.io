@@ -6,13 +6,24 @@ const url = 'https://us-central1-calm-streamer-339303.cloudfunctions.net/rsvp';
 // Cookie methods
 
 function getCookie() {
-    const cookie = document.cookie || "{}";
-    return JSON.parse(cookie);
+    const cookie = document.cookie || "data={};";
+
+    const parts = cookie.split(';');
+
+    const data = parts
+        .map(value => value.split('='))
+        .find(value => value[0] === 'data');
+    
+    if (!data) {
+        return {};
+    }
+
+    return JSON.parse(data[1]);
 }
 
 
 function setCookie(data={}) {
-    document.cookie = `${JSON.stringify(data)}; SameSite=None; Secure`
+    document.cookie = `data=${JSON.stringify(data)}; SameSite=None; Secure`
 }
 
 
@@ -212,8 +223,6 @@ function rsvpCodeSuccess(data) {
 
 
 // Entry point
-
-// let active = null;
 
 (() => {
     getElement('navbar-burger').addEventListener('click', () => {
