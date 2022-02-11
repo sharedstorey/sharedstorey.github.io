@@ -182,21 +182,6 @@ function rsvpSuccess(data) {
     removeError('rsvp');
 
     removeClass('rsvp-submit', 'is-loading');
-
-    if (data.rsvp_amount == null) {
-        return;
-    }
-
-    removeClass('rsvp-success-content', 'is-hidden');
-    addClass('rsvp-content', 'is-hidden')
-
-    getElement('rsvp-success-thanks').innerHTML = `${data.name}, thank you for your response.`;
-
-    if (data.rsvp_amount > 0) {
-        removeClass('rsvp-success-attending', 'is-hidden');
-    } else {
-        addClass('rsvp-success-attending', 'is-hidden');
-    }
 }
 
 
@@ -219,6 +204,7 @@ function rsvpCodeSubmit(event = null) {
 
 
 function rsvpCodeError({error}) {
+    removeClass('rsvp-code-content', 'is-hidden');
     removeClass('rsvp-code', 'is-disabled');
     addClass('rsvp-code', 'is-danger');
 
@@ -283,6 +269,21 @@ function rsvpCodeSuccess(data) {
         removeClass(`event-${i}`, 'is-hidden');
     });
     removeClass('event-schedule', 'is-hidden');
+
+    if (data.rsvp_amount == null) {
+        return;
+    }
+
+    removeClass('rsvp-success-content', 'is-hidden');
+    addClass('rsvp-content', 'is-hidden')
+
+    getElement('rsvp-success-thanks').innerHTML = `${data.name}, thank you for your response.`;
+
+    if (data.rsvp_amount > 0) {
+        removeClass('rsvp-success-attending', 'is-hidden');
+    } else {
+        addClass('rsvp-success-attending', 'is-hidden');
+    }
 }
 
 
@@ -355,14 +356,8 @@ function rsvpCodeSuccess(data) {
     const cookie = getCookie();
     const urlParams = new URLSearchParams(window.location.search);
 
-    if (cookie.id !== null && cookie.id === urlParams.get('c') || cookie.id && cookie.rsvp_amount != null) {
-        getElement('rsvp-code').value = cookie.id;
-        rsvpSuccess(cookie);
-
-        return;
-    }
-
     const code = urlParams.get('c') || cookie.id || null;
+    console.log('code', code);
     if (code) {
         getElement('rsvp-code').value = code;
         rsvpCodeSubmit();
