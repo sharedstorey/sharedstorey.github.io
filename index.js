@@ -10,15 +10,15 @@ function getCookie() {
 
     const parts = cookie.split(';');
 
-    const data = parts
+    const [_, ...remaining] = parts
         .map(value => value.split('='))
         .find(value => value[0] === 'data');
     
-    if (!data) {
+    if (!remaining) {
         return {};
     }
 
-    return JSON.parse(data[1]);
+    return JSON.parse(remaining.join("="));
 }
 
 
@@ -216,11 +216,23 @@ function rsvpCodeSuccess(data) {
     getElement('rsvp-amount').innerHTML = options;
     getElement('rsvp-amount').value = rsvp_amount === null ? rsvp_max : rsvp_amount;
     
-    for (let i = 0; i < questions.length - 1; ++i) {
+    for (let i = 0; i < 3; ++i) {
         getElement(`rsvp-q${i + 1}`).value = questions[i];
     }
 
-    getElement('rsvp-q5').value = questions[4] || 'Beef';
+    console.log(name);
+    const names = name.split('and');
+    console.log(names);
+
+    for (let i = 0; i < 2; ++i) {
+        if (i < names.length) {
+            getElement(`rsvp-q${i + 1 + 3}`).value = questions[i + 3] || 'Beef';
+            getElement(`rsvp-q${i + 1 + 3}-text`).innerHTML = `${names[i].trim()}, please select your entrée.`;
+            removeClass(`rsvp-q${i + 1 + 3}-field`, 'is-hidden');
+        } else {
+            addClass(`rsvp-q${i + 1 + 3}-field`, 'is-hidden');
+        }
+    }
 
     removeClass('rsvp-content', 'is-hidden');
 
