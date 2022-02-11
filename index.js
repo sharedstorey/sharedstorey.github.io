@@ -130,25 +130,26 @@ function rsvpSubmit(event = null) {
     const q1 = getElement('rsvp-q1').value;
     const q2 = getElement('rsvp-q2').value;
     const q3 = getElement('rsvp-q3').value;
-    const q4 = getElement('rsvp-q4').value;
-    const q5 = getElement('rsvp-q5').value;
+    let q4 = getElement('rsvp-q4').value;
+    let q5 = getElement('rsvp-q5').value;
+
+    if (amount == 0) {
+        q4 = q5 = "Not attending";
+    }
 
     const data = getCookie();
 
-    console.log(amount, q4, q5);
+    let error = false;
 
     if ((amount == 2 || (amount == 1 && data.rsvp_max === 1)) && q4 === "Not attending") {
         addError('rsvp-q4', 'Please select an entrée for this guest.');
-        return;
+        error = true;
     }
 
     if (amount == 2 && q5 === "Not attending") {
         addError('rsvp-q5', 'Please select an entrée for this guest.');
-        return;
+        error = true;
     }
-
-
-    console.log(amount == 1 && q4 !== "Not attending" && q5 !== "Not attending", amount == 1, q4 !== "Not attending", q5 !== "Not attending" );
 
     if (amount == 1 && q4 !== "Not attending" && q5 !== "Not attending") {
         addError('rsvp-q4', '');
@@ -156,8 +157,10 @@ function rsvpSubmit(event = null) {
 
         addError('rsvp', `The number of guests attending does not match the number of entrées selected.<br>Please verify your selections.`);
 
-        return;
+        error = true;
     }
+
+    if (error) return;
 
     addClass('rsvp-submit', 'is-loading');
 
@@ -253,13 +256,11 @@ function rsvpCodeSuccess(data) {
         getElement(`rsvp-q${i + 1}`).value = questions[i];
     }
 
-    console.log(name);
     const names = name.split('and');
-    console.log(names);
 
     for (let i = 0; i < 2; ++i) {
         if (i < names.length) {
-            getElement(`rsvp-q${i + 1 + 3}`).value = questions[i + 3] || 'Beef';
+            getElement(`rsvp-q${i + 1 + 3}`).value = questions[i + 3] || 'Not attending';
             getElement(`rsvp-q${i + 1 + 3}-text`).innerHTML = `${names[i].trim()}, please select your entrée.`;
             removeClass(`rsvp-q${i + 1 + 3}-field`, 'is-hidden');
         } else {
@@ -323,7 +324,6 @@ function rsvpCodeSuccess(data) {
 
     var acc = document.getElementsByClassName('accordion-header');
     var i;
-    console.log(acc);
     for (i = 0; i < acc.length; i++) {
       acc[i].addEventListener('click', function() {
         this.classList.toggle('accordion-active');
