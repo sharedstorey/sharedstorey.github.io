@@ -147,6 +147,8 @@ function rsvpSubmit(event = null) {
 
     let error = false;
 
+    console.log(amount, q4, q5);
+
     if ((amount == 2 || (amount == 1 && data.rsvp_max === 1)) && q4 === "Not attending") {
         addError('rsvp-q4', 'Please select an entrée for this guest.');
         error = true;
@@ -155,6 +157,16 @@ function rsvpSubmit(event = null) {
     if (amount == 2 && q5 === "Not attending") {
         addError('rsvp-q5', 'Please select an entrée for this guest.');
         error = true;
+    }
+
+    if (amount == 1 && q4 === "Not attending" && q5 === "Not attending") {
+        addError('rsvp-q4', '');
+        addError('rsvp-q5', '');
+
+        addError('rsvp', `The number of guests attending does not match the number of entrées selected.<br>Please verify your selections.`);
+
+        error = true;
+
     }
 
     if (amount == 1 && q4 !== "Not attending" && q5 !== "Not attending") {
@@ -224,8 +236,7 @@ function rsvpCodeSuccess(data) {
     setCookie(data);
 
     const {name, rsvp_max, rsvp_amount, events, questions} = data;
-    console.log(data);
-
+    
     // Hide RSVP code content
     addClass('rsvp-code-content', 'is-hidden');
     removeClass('rsvp-code-submit', 'is-loading');
@@ -370,7 +381,6 @@ function rsvpCodeSuccess(data) {
     const urlParams = new URLSearchParams(window.location.search);
 
     const code = urlParams.get('c') || cookie.id || null;
-    console.log('code', code);
     if (code) {
         getElement('rsvp-code').value = code;
         rsvpCodeSubmit();
