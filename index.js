@@ -6,19 +6,23 @@ const url = 'https://us-central1-calm-streamer-339303.cloudfunctions.net/rsvp';
 // Cookie methods
 
 function getCookie() {
-    const cookie = document.cookie || "data={};";
-
-    const parts = cookie.split(';');
-
-    const [_, ...remaining] = parts
-        .map(value => value.split('='))
-        .find(value => value[0] === 'data');
+    try {
+        const cookie = document.cookie || "data={};";
     
-    if (!remaining) {
+        const parts = cookie.split(';');
+    
+        const [_, ...remaining] = parts
+            .map(value => value.split('='))
+            .find(value => value[0] === 'data');
+        
+        if (!remaining) {
+            return {};
+        }
+    
+        return JSON.parse(remaining.join("="));
+    } catch (e) {
         return {};
     }
-
-    return JSON.parse(remaining.join("="));
 }
 
 
