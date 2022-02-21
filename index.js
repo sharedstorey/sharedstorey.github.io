@@ -204,6 +204,8 @@ function rsvpSuccess(data) {
     removeError('rsvp');
 
     removeClass('rsvp-submit', 'is-loading');
+
+    location.hash = '#separator-rsvp'
 }
 
 
