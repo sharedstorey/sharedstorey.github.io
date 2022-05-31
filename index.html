@@ -132,7 +132,6 @@
             <div id="navbar-menu" class="navbar-menu is-align-items-center">
                 <div class="navbar-start">
                     <a class="navbar-item is-size-5 nav-spaced" href="#top">Home</a>
-                    <a class="navbar-item is-size-5 nav-spaced" href="#separator-rsvp">RSVP</a>
                     <a class="navbar-item is-size-5 nav-spaced" href="#separator-event">Our Wedding</a>
                     <a class="navbar-item is-size-5 nav-spaced" href="#separator-faq">FAQ</a>
                 </div>
@@ -176,138 +175,6 @@
 
             </section>
 
-            <div id="separator-rsvp" class="vertical-separator has-text-centered">
-                <div class="vertical-separator-content"></div>
-            </div>
-
-            <section class="section is-other">
-                <h1 class="is-size-0">RSVP</h1>
-
-                <!-- RSVP content -->
-                <div id="rsvp-content" class="is-hidden">
-                    <p id="rsvp-name" class="is-size-3"></p>
-                    <a id="rsvp-incorrect" class="is-size-5">Not you?</a>
-
-                    <br>
-                    <br>
-                    <p class="is-size-4">We're excited to see you at the wedding. <br> Please answer the questions below before submitting your RSVP.</p>
-                    
-                    <form id="rsvp-form" class="mt-6">
-                        <div class="columns is-vcentered">
-                            <div class="column"></div>
-                            <div class="column is-5">
-                                <div id='rsvp-q4-field' class="field">
-                                    <label id='rsvp-q4-text' class="label is-size-5">Please make a selection for your entrée.</label>
-                                    <div class="control">
-                                        <div id="rsvp-q4-parent" class="select">
-                                            <select id="rsvp-q4">
-                                                <option value="Not attending">Not attending</option>
-                                                <option value="Beef">Beef</option>
-                                                <option value="Fish">Fish</option>
-                                                <option value="Vegetarian">Vegetarian</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <p id="rsvp-q4-error" class="help is-hidden is-size-5">Error message</p>
-                                </div>
-                                <div id='rsvp-q5-field' class="field is-hidden">
-                                    <br>
-                                    <label id='rsvp-q5-text' class="label is-size-5">Please make a selection for your entrée.</label>
-                                    <div class="control">
-                                        <div id="rsvp-q5-parent" class="select">
-                                            <select id="rsvp-q5">
-                                                <option value="Not attending">Not attending</option>
-                                                <option value="Beef">Beef</option>
-                                                <option value="Fish">Fish</option>
-                                                <option value="Vegetarian">Vegetarian</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <p id="rsvp-q5-error" class="help is-hidden is-size-5">Error message</p>
-                                </div>
-                                <br>
-                                <div class="field">
-                                    <label class="label is-size-5">Do you have any allergies or dietary restrictions?</label>
-                                    <div  class="control">
-                                        <input id="rsvp-q1" class="input" type="text" placeholder="Answer">
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="field">
-                                    <label class="label is-size-5 is-hide">What song will make you get up on the dance floor?</label>
-                                    <div class="control">
-                                        <input id="rsvp-q2" class="input" type="text" placeholder="Answer">
-                                    </div>
-                                </div>
-                                <div class="field is-hidden">
-                                    <label class="label is-size-5">Question 3</label>
-                                    <div class="control">
-                                        <input id="rsvp-q3" class="input" type="text" placeholder="Answer">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column"></div>
-                        </div>
-                        <br>
-                        <div class="field is-horizontal">
-                            <div class="field-body">
-                                <div class="field">
-                                    <div class="field has-addons has-addons-centered">
-                                        <div class="control">
-                                            <div class="select">
-                                                <select id="rsvp-amount"></select>
-                                            </div>
-                                        </div>
-                                        <div class="control is-black">
-                                            <button id="rsvp-submit" type="submit" class="button is-black">RSVP</button>
-                                        </div>
-                                    </div>
-                                    <p id="rsvp-error" class="help is-hidden is-size-5">Error message</p>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- RSVP Code content -->
-                <div id="rsvp-code-content" class="is-hidden">
-                    <form id="rsvp-code-form">
-                        <p class="is-size-5">Please enter the RSVP code located in your invitation email.</p>
-                        <br>
-                        <div class="field is-horizontal">
-                            <div class="field-body">
-                                <div class="field">
-                                    <div class="field is-grouped is-grouped-centered">
-                                        <div class="control">
-                                            <input id="rsvp-code" type="text" class="input" placeholder="RSVP Code">
-                                        </div>
-                                        <div class="control">
-                                            <button id="rsvp-code-submit" type="submit" class="button is-black">Find Me!</button>
-                                        </div>
-                                    </div>
-                                    <p id="rsvp-code-error" class="help is-hidden is-size-5">Error message</p>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- RSVP success content -->
-                <div id="rsvp-success-content" class="is-hidden">
-                    <p id="rsvp-success-thanks" class="is-size-3"></p>
-                    <a id="rsvp-success-incorrect" class="is-size-5">Not you?</a>
-                    <br>
-                    <div id="rsvp-success-attending">
-                        <br>
-                        <p id="rsvp-success-text" class="is-size-4">We look forward to seeing you at the wedding!</p>
-                    </div>
-                    <br>
-                    <p class="is-size-6">Need to view or change your response?</p>
-                    <br>
-                    <button id="rsvp-success-change" class="button is-black">Click here</button>
-                </div>
-            </section>
-
             <div  id="separator-event" class="vertical-separator has-text-centered">
                 <div class="vertical-separator-content"></div>
             </div>
@@ -323,7 +190,7 @@
                     <div class="column is-1"></div>  
                     <div class="column is-size-4">
                         <p id="event-schedule" class="has-text-weight-bold is-size-3">The Details</p>
-                        <p id="event-0"><i>To view the schedule of the day, please enter your code above.</i></p>
+                        <p id="event-0"><i>Thanks to our loved ones who were able to make it out and celebrate our special day.</i></p>
                         <p id="event-1" class="is-hidden"></p>
                         <p id="event-2" class="is-hidden"></p>
                         <br>
